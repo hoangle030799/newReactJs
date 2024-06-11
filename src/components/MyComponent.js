@@ -19,15 +19,13 @@ class MyComponent extends React.Component {
     render() {
         return (
             <>
-                <div>
-                    <AddInputUserInfor
-                        handleAddNew={this.handleAddNew}
-                    />
-                    <br /><br />
-                    <DisplayInfor
-                        listUser={this.state.listUser}
-                    />
-                </div>
+                <AddInputUserInfor
+                    handleAddNew={this.handleAddNew}
+                />
+                <br /><br />
+                <DisplayInfor
+                    listUser={this.state.listUser}
+                />
             </>
         )
     }

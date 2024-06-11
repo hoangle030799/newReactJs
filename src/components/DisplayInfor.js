@@ -15,27 +15,26 @@ class DisplayInfor extends React.Component {
     render() {
         let { listUser } = this.props
         return (
-            <>
+            <div className="display-infor-container">
                 <img src={logo} />
-                <br/>
+                <br />
                 <button onClick={() => { this.handleShowHide() }}>
                     {this.state.isShowListUser === true ? "Hide list user" : "Show list user"}
                 </button>
-                <br/><br/>
-                {listUser.map((user) => {
-                    return (
-                        <div className="display-infor-container">
-                            {this.state.isShowListUser &&
+                {this.state.isShowListUser &&
+                    <>
+                        {listUser.map((user)=> {
+                            return(
                                 <div key={user.id} className={+user.name.length > 4 ? "green" : "red"}>
                                     <div>My name is {user.name}</div>
                                     <div>My age is {user.age}</div>
                                     <hr />
                                 </div>
-                            }
-                        </div>
-                    )
-                })}
-            </>
+                            )
+                        })}
+                    </>
+                }
+            </div>
         )
     }
 }

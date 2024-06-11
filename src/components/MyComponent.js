@@ -15,6 +15,7 @@ class MyComponent extends React.Component {
             <>
                 <div>
                     <InputUserInfor />
+                    <br/><br/>
                     <DisplayInfor
                         listUser = {this.state.listUser}
                     />

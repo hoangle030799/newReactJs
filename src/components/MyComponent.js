@@ -16,6 +16,13 @@ class MyComponent extends React.Component {
         })
         console.log(event)
     }
+    handleDelete = (userID) => {
+        let newListUser = [...this.state.listUser]
+        newListUser = newListUser.filter(item => item.id !== userID)
+        this.setState({
+            listUser: newListUser
+        })
+    }
     render() {
         return (
             <>
@@ -25,6 +32,7 @@ class MyComponent extends React.Component {
                 <br /><br />
                 <DisplayInfor
                     listUser={this.state.listUser}
+                    handleDelete = {this.handleDelete}
                 />
             </>
         )

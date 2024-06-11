@@ -26,8 +26,13 @@ class DisplayInfor extends React.Component {
                         {listUser.map((user)=> {
                             return(
                                 <div key={user.id} className={+user.name.length > 4 ? "green" : "red"}>
+                                    <>
                                     <div>My name is {user.name}</div>
                                     <div>My age is {user.age}</div>
+                                    </>
+                                    <div>
+                                        <button onClick={()=>this.props.handleDelete(user.id)}>Delete</button>
+                                    </div>
                                     <hr />
                                 </div>
                             )
@@ -37,5 +42,5 @@ class DisplayInfor extends React.Component {
             </div>
         )
     }
-}
+}   
 export default DisplayInfor

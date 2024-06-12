@@ -13,11 +13,17 @@ body {
   .header-container{
     .navbar-nav{
       .nav-link{
-
+        z-index: 10;
+        opacity: 0.6;
       }
       .active{
         color: red;
       }
     }
   }
+}
+video {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
 }

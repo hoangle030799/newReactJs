@@ -5,10 +5,11 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter,
+import {
+  BrowserRouter,
   Routes,
   Route
- } from 'react-router-dom';
+} from 'react-router-dom';
 import User from './components/User/User';
 import Admin from './components/Admin/Admin';
 
@@ -18,9 +19,10 @@ root.render(
     {/* <React.StrictMode> */}
     <BrowserRouter>
       <Routes>
-        <Route path='/' element = {<App/>}/>
-        <Route path='user' element = {<User/>}/>
-        <Route path='admin' element = {<Admin/>}/>
+        <Route path='/' element={<App />}>
+          <Route path='user' element={<User />} />
+          <Route path='admin' element={<Admin />} />
+        </Route>
       </Routes>
     </BrowserRouter>
     {/* </React.StrictMode> */}

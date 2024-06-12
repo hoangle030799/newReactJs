@@ -14,6 +14,7 @@ import sidebarBg from '../../Assets/bg2.jpg';
 import { FaReact } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import './SideBar.scss';
+import { Link } from 'react-router-dom';
 
 
 const SideBar = (props) => {
@@ -51,6 +52,7 @@ const SideBar = (props) => {
                             icon={<FaTachometerAlt />}
                         >
                             dashboard
+                            <Link to="/admin" />
                         </MenuItem>
                     </Menu>
                     <Menu iconShape="circle">
@@ -58,7 +60,10 @@ const SideBar = (props) => {
                           icon = {<FaGem/>}
                           title = "Features"
                         >
-                            <MenuItem>Quản lý User</MenuItem>
+                            <MenuItem>
+                            Quản lý User
+                            <Link to="/admin/manage-user" />
+                            </MenuItem>
                             <MenuItem>Quản lý bài Quiz</MenuItem>
                             <MenuItem>Quản lý câu hỏi</MenuItem>
                         </SubMenu>

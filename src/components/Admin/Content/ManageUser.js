@@ -2,6 +2,7 @@ import ModalCreateUser from './ModalCreateUser'
 import './ManageUser.scss'
 import { RiUserAddLine } from "react-icons/ri";
 import { useState } from 'react';
+import TableUser from './TableUser';
 
 
 
@@ -20,7 +21,7 @@ const ManageUser = (props) => {
                     </button>
                 </div>
                 <div className='table-users-container'>
-                    table users
+                    <TableUser/>
                 </div>
                 <ModalCreateUser
                 show = {showModal}

@@ -3,6 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { RiImageAddFill } from "react-icons/ri";
 import axios from 'axios';
+import { toast } from 'react-toastify';
+
 
 
 const ModalCreateUser = (props) => {
@@ -15,6 +17,7 @@ const ModalCreateUser = (props) => {
         setUserName('')
         setRole('')
         setImage('')
+        setPreviewImage('')
     }
 
 
@@ -34,16 +37,29 @@ const ModalCreateUser = (props) => {
         }
 
     }
+
     const handleSubmit = async() => {
+        //validate
+        const validateEmail = (email) => {
+            return String(email)
+              .toLowerCase()
+              .match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+              );
+          };
+        const isValidEmail = validateEmail(email)
+        if(!isValidEmail){
+            toast.error('Validate Email !!!')
+            return
+        }
+        if(password.length<6){
+            toast.error('Validate Password !!!')
+            return
+        }
+        
+        
+
         //call api
-        // let data = {
-        //     email: email,
-        //     password: password,
-        //     username: userName,
-        //     role: role,
-        //     userImage: previewImage
-        // }
-        // console.log(data)
         const data = new FormData();
         data.append('email', email);
         data.append('password', password);
@@ -51,9 +67,15 @@ const ModalCreateUser = (props) => {
         data.append('role', role);
         data.append('userImage', image);
 
-        let res = await axios.post('http://localhost:8081/api/v1/participant', FormData)
+        let res = await axios.post('http://localhost:8081/api/v1/participant', data)
         // axios.post('http://localhost:8081/api/v1/participant', data)
-        console.log('check res', res)
+        console.log('check res', res.data)
+        if(res.data && res.data.EC === 0){
+            toast.success (res.data.EM)
+            handleClose()
+        }else{
+            toast.error (res.data.EM)
+        }
     }
 
     return (

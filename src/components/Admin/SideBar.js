@@ -79,7 +79,7 @@ const SideBar = (props) => {
                         }}
                     >
                         <a
-                            href="https://haryphamdev.github.io/hoidanit-udemy/"
+                            href="http://localhost:3000/"
                             target="_blank"
                             className="sidebar-btn"
                             rel="noopener noreferrer"

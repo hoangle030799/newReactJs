@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import { RiImageAddFill } from "react-icons/ri";
 import axios from 'axios';
 import { toast } from 'react-toastify';
-
+import {postCreateNewUser} from '../../Services/apiService'
 
 
 const ModalCreateUser = (props) => {
@@ -60,21 +60,12 @@ const ModalCreateUser = (props) => {
         
 
         //call api
-        const data = new FormData();
-        data.append('email', email);
-        data.append('password', password);
-        data.append('username', userName);
-        data.append('role', role);
-        data.append('userImage', image);
-
-        let res = await axios.post('http://localhost:8081/api/v1/participant', data)
-        // axios.post('http://localhost:8081/api/v1/participant', data)
-        console.log('check res', res.data)
-        if(res.data && res.data.EC === 0){
-            toast.success (res.data.EM)
+        let data = await postCreateNewUser(email, password, userName, role, image)
+        if(data && data.EC === 0){
+            toast.success (data.EM)
             handleClose()
         }else{
-            toast.error (res.data.EM)
+            toast.error (data.EM)
         }
     }
 

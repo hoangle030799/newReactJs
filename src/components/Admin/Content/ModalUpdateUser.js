@@ -4,12 +4,12 @@ import Modal from 'react-bootstrap/Modal';
 import { RiImageAddFill } from "react-icons/ri";
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { postCreateNewUser } from '../../Services/apiService'
+import { putUpdateUser } from '../../Services/apiService'
 import _ from 'lodash';
 
 
 const ModalUpdateUser = (props) => {
-    const { showModalUpdate, setShowModalUpdate, dataUpdate } = props;
+    const { showModalUpdate, setShowModalUpdate, dataUpdate, setDataUpdate } = props;
 
     const handleClose = () => {
         setShowModalUpdate(false)
@@ -19,6 +19,7 @@ const ModalUpdateUser = (props) => {
         setRole('')
         setImage('')
         setPreviewImage('')
+        setDataUpdate()
     }
 
 
@@ -30,14 +31,13 @@ const ModalUpdateUser = (props) => {
     const [previewImage, setPreviewImage] = useState('')
 
     useEffect(() => {
-        console.log('run useeffect')
         if (!_.isEmpty(dataUpdate)) {
             setEmail(dataUpdate.email)
-            setPassword(dataUpdate.password)
+            setPassword(password)
             setUserName(dataUpdate.username)
             setRole(dataUpdate.role)
             setImage('')
-            if(dataUpdate.image){
+            if (dataUpdate.image) {
                 setPreviewImage(`data:image/jpeg;base64,${dataUpdate.image}`)
             }
         }
@@ -54,28 +54,9 @@ const ModalUpdateUser = (props) => {
     }
 
     const handleSubmit = async () => {
-        //validate
-        const validateEmail = (email) => {
-            return String(email)
-                .toLowerCase()
-                .match(
-                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                );
-        };
-        const isValidEmail = validateEmail(email)
-        if (!isValidEmail) {
-            toast.error('Validate Email !!!')
-            return
-        }
-        if (password.length < 6) {
-            toast.error('Validate Password !!!')
-            return
-        }
-
-
 
         //call api
-        let data = await postCreateNewUser(email, password, userName, role, image)
+        let data = await putUpdateUser(dataUpdate.id, userName, role, image)
         if (data && data.EC === 0) {
             toast.success(data.EM)
             handleClose()
@@ -84,7 +65,6 @@ const ModalUpdateUser = (props) => {
             toast.error(data.EM)
         }
     }
-    console.log('check render data update:', dataUpdate)
 
     return (
         <>

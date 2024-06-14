@@ -1,14 +1,25 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import {deleteUser} from '../../Services/apiService'
+import { toast } from 'react-toastify';
+
 
 const ModalDeleteUser = (props) => {
     const {setShowModalDetele, showModalDelete, dataUpdateDelete} = props
 
 
     const handleClose = () => setShowModalDetele(false);
-    const handleBtnSubmitDelete = () => {
-        alert('me')
+
+    const handleBtnSubmitDelete = async () => {
+        let data = await deleteUser(dataUpdateDelete.id)
+        if (data && data.EC === 0) {
+            toast.success(data.EM)
+            handleClose()
+            await props.fetchListUser()
+        } else {
+            toast.error(data.EM)
+        }
     }
 
     return (

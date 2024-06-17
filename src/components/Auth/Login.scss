@@ -2,7 +2,22 @@
     .header {
         height: 45px;
         text-align: right;
-        border: 1px solid red;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 20px;
+        gap: 5px;
+
+        button {
+            border-radius: 5px;
+            background: white;
+            border: 1px solid #c4c2c2;
+            padding: 3px 10px;
+
+            &:hover{
+                background: #edebeb;
+            }
+        }
     }
 
     .title {
@@ -21,13 +36,18 @@
         flex-direction: column;
         gap: 15px;
 
-        button{
+        button {
             width: 100%;
             border: none;
             background: black;
             color: white;
             padding: 10px 0;
             border-radius: 5px;
+        }
+
+        .backToHome{
+            cursor: pointer;
+            text-align: center;
         }
     }
 }

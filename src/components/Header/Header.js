@@ -27,7 +27,7 @@ const Header = () => {
                     </Nav>
                     <Nav>
                         <button className='btn-login' onClick={() => handleLogin()}>Log in</button>
-                        <button className='btn-signup'>Sign up</button>
+                        <button className='btn-signup' onClick={() => {navigate('/Register')}}>Sign up</button>
                         {/* <NavDropdown title="Settings" id="basic-nav-dropdown">
                             <NavDropdown.Item>Log in</NavDropdown.Item>
                             <NavDropdown.Item>Profile</NavDropdown.Item>

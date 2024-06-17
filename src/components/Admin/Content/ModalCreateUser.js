@@ -47,15 +47,15 @@ const ModalCreateUser = (props) => {
                 /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
               );
           };
-        const isValidEmail = validateEmail(email)
-        if(!isValidEmail){
-            toast.error('Validate Email !!!')
-            return
-        }
-        if(password.length<6){
-            toast.error('Validate Password !!!')
-            return
-        }
+            const isValidEmail = validateEmail(email)
+            if(!isValidEmail){
+                toast.error('Validate Email !!!')
+                return
+            }
+            if(password.length<6){
+                toast.error('Validate Password !!!')
+                return
+            }
         
         
 

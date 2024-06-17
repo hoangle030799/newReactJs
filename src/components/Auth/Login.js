@@ -14,21 +14,36 @@ const Login = (props) => {
 
     const handleBtnLogin = async () => {
         //validate
-
+        const validateEmail = (email) => {
+            return String(email)
+                .toLowerCase()
+                .match(
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                );
+        };
+        const isValidEmail = validateEmail(email)
+        if (!isValidEmail) {
+            toast.error('Validate Email !!!')
+            return
+        }
+        if (!password) {
+            toast.error('Validate Password !!!')
+            return
+        }
         //submit api
-        let data = await postLogin (email, password)
-        if(data && data.EC === 0){
-            toast.success (data.EM)
+        let data = await postLogin(email, password)
+        if (data && data.EC === 0) {
+            toast.success(data.EM)
             navigate('/')
-        }else{
-            toast.error (data.EM)
+        } else {
+            toast.error(data.EM)
         }
     }
     return (
         <div className="login-Container">
             <div className="header">
                 <span>Don't have an account yet?</span>
-                <button>Sign up</button>
+                <button onClick={() => { navigate('/Register') }}>Sign up</button>
                 <span>Contact us</span>
             </div>
             <div className="title col-3 mx-auto">
@@ -40,19 +55,19 @@ const Login = (props) => {
             <div className="content-form col-3 mx-auto">
                 <div className='form-group'>
                     <label>Email</label>
-                    <input 
-                    type='email' 
-                    className='form-control'
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)} />
+                    <input
+                        type='email'
+                        className='form-control'
+                        value={email}
+                        onChange={(event) => setEmail(event.target.value)} />
                 </div>
                 <div className='form-group'>
                     <label>Password</label>
-                    <input 
-                    type='password' 
-                    className='form-control'
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)} />
+                    <input
+                        type='password'
+                        className='form-control'
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)} />
                 </div>
                 <span className='forgot-password'>
                     Forgot password ?
@@ -60,7 +75,7 @@ const Login = (props) => {
                 <div>
                     <button className='btn-login' onClick={() => handleBtnLogin()}>Login to HoangHeoThy</button>
                 </div>
-                <span className='backToHome'onClick={() => {navigate('/')}}>&#60;&#60;Back to Home page</span>
+                <span className='backToHome' onClick={() => { navigate('/') }}>&#60;&#60;Back to Home page</span>
             </div>
         </div>
     )

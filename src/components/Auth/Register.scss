@@ -9,26 +9,25 @@
         width: 50%;
         justify-content: center;
         background: #2b2b2b;
-        .content{
+
+        .content {
             position: absolute;
             left: 50px;
+
             .title-1 {
                 width: 40%;
                 color: white;
                 margin-bottom: 30px;
                 text-align: center;
             }
-    
+
             .bottom {
                 position: absolute;
                 bottom: -80px;
                 left: 180px;
                 color: white;
-    
             }
         }
-
-        
     }
 
     .content-right {
@@ -88,15 +87,18 @@
                 padding: 10px 0;
                 border-radius: 5px;
             }
-            .pass-group{
+
+            .pass-group {
                 position: relative;
-                .icon-eye{
+
+                .icon-eye {
                     position: absolute;
                     right: 10px;
                     top: 6px;
                 }
             }
-            .backToHome{
+
+            .backToHome {
                 cursor: pointer;
                 text-align: center;
             }

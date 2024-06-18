@@ -5,6 +5,9 @@ import { postLogin } from '../Services/apiService'
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { doLogin } from '../../redux/action/userAction';
+import { ImSpinner9 } from "react-icons/im";
+
+
 
 
 const Login = (props) => {
@@ -13,6 +16,7 @@ const Login = (props) => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [isLoading, setIsloading] = useState(false)
 
     const handleBtnLogin = async () => {
         //validate
@@ -32,14 +36,17 @@ const Login = (props) => {
             toast.error('Validate Password !!!')
             return
         }
+        setIsloading(true)
         //submit api
         let data = await postLogin(email, password)
         if (data && data.EC === 0) {
             dispatch(doLogin(data))
             toast.success(data.EM)
-            navigate('/')
+            setIsloading(false)
+            // navigate('/')
         } else {
             toast.error(data.EM)
+            setIsloading(false)
         }
     }
     return (
@@ -76,7 +83,14 @@ const Login = (props) => {
                     Forgot password ?
                 </span>
                 <div>
-                    <button className='btn-login' onClick={() => handleBtnLogin()}>Login to HoangHeoThy</button>
+                    <button
+                        className='btn-login'
+                        onClick={() => handleBtnLogin()}
+                        disabled = {isLoading}
+                    >
+                        {isLoading === true && <ImSpinner9 className='loaderIcon'/>}
+                        <span>Login to HoangHeoThy</span>
+                    </button>
                 </div>
                 <span className='backToHome' onClick={() => { navigate('/') }}>&#60;&#60;Back to Home page</span>
             </div>

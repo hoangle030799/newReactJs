@@ -14,7 +14,7 @@
             border: 1px solid #c4c2c2;
             padding: 3px 10px;
 
-            &:hover{
+            &:hover {
                 background: #edebeb;
             }
         }
@@ -39,13 +39,34 @@
         button {
             width: 100%;
             border: none;
-            background: black;
+            background: rgb(0, 0, 0);
             color: white;
             padding: 10px 0;
             border-radius: 5px;
+            &:disabled{
+                background: rgb(92 90 90);
+                cursor: no-drop;
+            }
+
+            .loaderIcon{
+                margin-right: 7px;
+                top: 2px;
+                animation: spin 1s infinite linear;
+            }
+
+            @keyframes spin {
+                from {
+                    transform: scale(1) rotate(0deg);
+                }
+
+                to {
+                    transform: scale(1) rotate(360deg);
+                }
+            }
         }
 
-        .backToHome{
+
+        .backToHome {
             cursor: pointer;
             text-align: center;
         }

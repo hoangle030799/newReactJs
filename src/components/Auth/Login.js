@@ -43,7 +43,7 @@ const Login = (props) => {
             dispatch(doLogin(data))
             toast.success(data.EM)
             setIsloading(false)
-            // navigate('/')
+            navigate('/')
         } else {
             toast.error(data.EM)
             setIsloading(false)

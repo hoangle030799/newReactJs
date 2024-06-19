@@ -14,8 +14,26 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Register from './components/Auth/Register';
 import ListQuiz from './components/User/ListQuiz';
+import DetailQuiz from './components/User/DetailQuiz';
+import { useNavigate } from 'react-router-dom';
 
 const Layout = (props) => {
+    const navigate = useNavigate()
+
+    const NotFound = () => {
+        return (
+            <div className="d-flex align-items-center justify-content-center vh-100">
+                <div className="text-center">
+                    <h1 className="display-1 fw-bold">404</h1>
+                    <p className="fs-3"> <span className="text-danger">Opps!</span> Page not found.</p>
+                    <p className="lead">
+                        The page you’re looking for doesn’t exist.
+                    </p>
+                    <button className="btn btn-primary" onClick={()=>navigate('/')}>Go Home</button>
+                </div>
+            </div>
+        )
+    }
     return (
         <>
             <Routes>
@@ -23,12 +41,14 @@ const Layout = (props) => {
                     <Route index element={<HomePage />} />
                     <Route path='user' element={<ListQuiz />} />
                 </Route>
+                <Route path='/quiz/:id' element={<DetailQuiz />} />
                 <Route path='/admin' element={<Admin />} >
                     <Route index element={<DashBoard />} />
                     <Route path='manage-user' element={<ManageUser />} />
                 </Route>
                 <Route path='Login' element={<Login />} />
                 <Route path='Register' element={<Register />} />
+                <Route path='*' element={<NotFound />} />
             </Routes>
             <ToastContainer
                 position="top-right"

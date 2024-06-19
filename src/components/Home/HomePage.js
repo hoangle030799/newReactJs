@@ -1,11 +1,12 @@
 import videoHomePage from '../../Assets/video-homepage.mp4'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 
 const HomePage = (props) => {
     const isAuthenticated = useSelector(state => state.user.isAuthenticated)
-    const account = useSelector(state => state.user.account)
 
+    const navigate = useNavigate()
 
     return (
         <div className="homepage-container">
@@ -25,7 +26,12 @@ const HomePage = (props) => {
                     Create a typeform instead-and make everyone happy.
                 </div>
                 <div className='title-3'>
-                    <button>Get stated-it's free</button>
+                    {isAuthenticated === false ?
+                    <button onClick={()=> navigate('/Login')}>Get stated-it's free</button>
+                    :
+                    <button onClick={()=> navigate('/User')}>Doing quiz now</button>
+                    }
+                    
                 </div>
             </div>
         </div>

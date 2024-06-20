@@ -1,23 +1,30 @@
 import _ from "lodash"
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
 
 
 const Question = (props) => {
     const { data, index } = props
-    // const [selectedAnswer, setSelectedAnswer] = useState(null)
+    // const [selectedAnswer, setSelectedAnswer] = useState([])
     // useEffect(()=> {
     //     setSelectedAnswer(null)
     // }, [data.questionDescription])
-    if (_.isEmpty(data)) {
-        return (<></>)
-    }
+
     // console.log(data)
-    const handleCheckbox = (idx) => {
-        // setSelectedAnswer(index);
-        props.handleCB(idx);
+    const handleCheckbox = (qIdx, aIdx) => {
+        const newSelectedAnswers = [...props.selectedAnswers]
+        newSelectedAnswers[qIdx] = aIdx
+        props.setSelectedAnswers(newSelectedAnswers)
+        // props.setSelectedAnswers((Prev)=> {
+        //     return(
+        //         [...Prev, index]
+        //     )
+        // });
+        // props.handleCB(index);
+        // console.log('data asd: ', data)
+        // console.log(data)
     };
-    
+
     // const handleCheckbox = (event, aId, qId) => {
     //     // console.log('check data: ', aId, qId)
     //     props.handleCB(aId, qId)
@@ -26,8 +33,14 @@ const Question = (props) => {
     //     // console.log(event.target.checked)
 
     // }
-    
+    // useEffect(()=>{
+    //     console.log(props.selectedAnswer)
 
+    // },[props.selectedAnswer])
+
+    if (_.isEmpty(data)) {
+        return (<></>)
+    }
     return (
         <>
             <div className="q-body">
@@ -36,7 +49,7 @@ const Question = (props) => {
             </div>
             <div className="question">Question {index + 1}: {data.questionDescription} ?</div>
             <div className="answers">
-                {data.answers && data.answers.length > 0 &&
+                {data.answers && data.answers.length > 0 && props.selectedAnswers.length > 0 &&
                     data.answers.map((a, idx) => {
                         return (
                             <div
@@ -48,8 +61,12 @@ const Question = (props) => {
                                         className="form-check-input"
                                         type="radio"
                                         name={`question-${index}`}
-                                        checked = {props.selectedAnswer === idx}
-                                        onChange={() => handleCheckbox(idx)} />
+                                        checked={props.selectedAnswers[index] == idx}
+                                        onChange={() => handleCheckbox(index, idx)}
+                                        value={idx}
+                                        data-test1={props.selectedAnswers[index]}
+                                        data-test2={idx} />
+
                                     <label className="form-check-label">
                                         {a.description}
                                     </label>

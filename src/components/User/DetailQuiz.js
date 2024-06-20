@@ -14,7 +14,8 @@ const DetailQuiz = (props) => {
 
     const [dataQuiz, setDataQuiz] = useState([])
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [selectedAnswers, setSelectedAnswers] = useState([null]);
+    const [selectedAnswers, setSelectedAnswers] = useState(Array(dataQuiz.length).fill(null))
+    // console.log (dataQuiz)
 
 
     useEffect(() => {
@@ -43,8 +44,10 @@ const DetailQuiz = (props) => {
                 })
                 .value()
             setDataQuiz(data)
+            console.log(data)
+            setSelectedAnswers(Array(data.length).fill(null))
         }
-
+        
     }
     const handlePrev = () => {
         if (currentQuestionIndex <= 0) {
@@ -57,9 +60,12 @@ const DetailQuiz = (props) => {
             setCurrentQuestionIndex(currentQuestionIndex + 1)
         }
     }
-    const handleFinish = () => {
+    // console.log(selectedAnswers)
+    
+    useEffect(() => {
 
-    }
+        console.log(selectedAnswers)
+    },[selectedAnswers])
     const handleCB = (index) => {
         const newSelectedAnswers = [...selectedAnswers];
         newSelectedAnswers[currentQuestionIndex] = index;
@@ -87,7 +93,48 @@ const DetailQuiz = (props) => {
     // const nextQuestion = () => {
     //     setCurrentQuestionIndex(prevIndex => (prevIndex + 1) % questions.length);
     // };
+
+    const handleFinish = () => {
+        let payload = dataQuiz.map((item, index) => {
+            return {
+                questionId: item.questionId,
+                userAnswerId: [selectedAnswers[index]]
+            }
+        })
+        let a = {quizId,
+            answers: payload}
+            console.log(a)
+        return a;
+        // // console.log('check selected answers: ', selectedAnswers)
+        // let payload = {
+        //     quizId: +quizId,
+        //     answers: []
+        // }
+        // let answer = []
+        // if(dataQuiz && dataQuiz.length >0){
+        //     dataQuiz.forEach(item => {
+        //         let questionId = +item.questionId
+        //         let userAnswerId = []
+
+        //         // selectedAnswers.forEach(a =>{
+        //         //     // userAnswerId.push(a.id)
+        //         //     console.log('aaaaa',a)
+        //         // })
+        //         // console.log(item)
+
+        //         answer.push({
+        //             questionId: questionId,
+        //             userAnswerId: userAnswerId
+        //         })
+        //     })
+
+        //     payload.answers = answer
+        //     console.log('final payload: ', payload)
+        // }
+        
+    }
     
+
 
 
     return (
@@ -102,7 +149,9 @@ const DetailQuiz = (props) => {
                         data={dataQuiz[currentQuestionIndex]}
                         index={currentQuestionIndex}
                         handleCB={handleCB}
-                        selectedAnswer={selectedAnswers[currentQuestionIndex]}
+                        selectedAnswers={selectedAnswers}
+                        setSelectedAnswers={setSelectedAnswers}
+                        // setSelectedAnswer = {setSelectedAnswer}
                     // index = {index}
                     // data={dataQuiz && dataQuiz.length > 0 ?
                     //     dataQuiz[index]

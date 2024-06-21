@@ -1,42 +1,14 @@
 import _ from "lodash"
-import { useEffect, useState } from "react";
 
 
 
 const Question = (props) => {
     const { data, index } = props
-    // const [selectedAnswer, setSelectedAnswer] = useState([])
-    // useEffect(()=> {
-    //     setSelectedAnswer(null)
-    // }, [data.questionDescription])
-
-    // console.log(data)
     const handleCheckbox = (qIdx, aIdx) => {
         const newSelectedAnswers = [...props.selectedAnswers]
         newSelectedAnswers[qIdx] = aIdx
         props.setSelectedAnswers(newSelectedAnswers)
-        // props.setSelectedAnswers((Prev)=> {
-        //     return(
-        //         [...Prev, index]
-        //     )
-        // });
-        // props.handleCB(index);
-        // console.log('data asd: ', data)
-        // console.log(data)
     };
-
-    // const handleCheckbox = (event, aId, qId) => {
-    //     // console.log('check data: ', aId, qId)
-    //     props.handleCB(aId, qId)
-    //     console.log(event.target.value)
-    //     // event.target.checked = !event.target.checked
-    //     // console.log(event.target.checked)
-
-    // }
-    // useEffect(()=>{
-    //     console.log(props.selectedAnswer)
-
-    // },[props.selectedAnswer])
 
     if (_.isEmpty(data)) {
         return (<></>)
@@ -61,12 +33,9 @@ const Question = (props) => {
                                         className="form-check-input"
                                         type="radio"
                                         name={`question-${index}`}
-                                        checked={props.selectedAnswers[index] == idx}
-                                        onChange={() => handleCheckbox(index, idx)}
-                                        value={idx}
-                                        data-test1={props.selectedAnswers[index]}
-                                        data-test2={idx} />
-
+                                        checked={props.selectedAnswers[index] == a.id}
+                                        onChange={() => handleCheckbox(index, a.id)}
+                                        value={idx}/>
                                     <label className="form-check-label">
                                         {a.description}
                                     </label>

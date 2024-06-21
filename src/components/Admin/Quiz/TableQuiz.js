@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { getAllQuizForAdmin } from "../../Services/apiService"
 
-const TableQuiz = () => {
+const TableQuiz = (props) => {
 
     const [ListQuiz, setListQuiz] = useState([])
 
@@ -18,7 +18,7 @@ const TableQuiz = () => {
     }
 
     return (
-        <table class="table table-hover table-bordered mt-1">
+        <table class="table table-hover table-bordered my-2">
             <thead>
                 <tr>
                     <th scope="col">ID</th>

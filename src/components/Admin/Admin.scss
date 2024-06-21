@@ -12,9 +12,12 @@
 
         .admin-header {
             height: 20px;
+            margin-bottom: 10px;
         }
+        
 
         .admin-main {
+            height: calc(100vh - 30px);
             .user-pagination{
                 display: flex;
                 justify-content: center;

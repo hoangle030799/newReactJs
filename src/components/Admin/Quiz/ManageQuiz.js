@@ -5,6 +5,8 @@ import { postCreateNewQuiz } from '../../Services/apiService'
 import { toast } from 'react-toastify';
 import './ManageQuiz.scss';
 import { RiImageAddFill } from "react-icons/ri";
+import TableQuiz from './TableQuiz';
+import { Accordion } from 'react-bootstrap';
 
 
 const options = [
@@ -47,72 +49,80 @@ const ManageQuiz = (props) => {
 
     return (
         <div className="quiz-container">
-            <div className="title">
-                Manage Quizzes
-            </div>
-            <div className="add-new">
-                <fieldset className="border rounded-3 p-3">
-                    <legend className="float-none w-auto px-3">Add new quiz</legend>
-                    <div className="form-floating mb-3">
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="floatingInput"
-                            placeholder="Name"
-                            value={name}
-                            onChange={(event) => setName(event.target.value)} />
-                        <label for="floatingInput">Name</label>
-                    </div>
-                    <div className="form-floating">
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="floatingPassword"
-                            placeholder="Description"
-                            value={description}
-                            onChange={(event) => setDessciption(event.target.value)} />
-                        <label for="floatingPassword">Description</label>
-                    </div>
-                    <div className='my-3'>
-                        <Select
-                            defaultValue={type}
-                            onChange={setType}
-                            placeholder='Quiz type ...'
-                            options={options}
-                        />
-                    </div>
-                    <div className='more-action'>
-                        <div className='form-upload-image'>
-                            <div className='btn-group'>
-                                <label className='mb-1 label-upload' htmlFor='upLoadImage'>
-                                    <RiImageAddFill />Upload image
-                                </label>
-                                <input
-                                    type='file'
-                                    className='form-control'
-                                    id='upLoadImage'
-                                    hidden
-                                    onChange={(event) => handleChangeImage(event)} />
-                                <button
-                                    className='btn-1'
-                                    onClick={() => handleSubmitQuiz()}
-                                >
-                                    <TiPlus /> Create
-                                </button>
-                            </div>
+            <Accordion defaultActiveKey="0">
+                <Accordion.Item eventKey="0">
+                    <Accordion.Header>Manage Quizzes</Accordion.Header>
+                    <Accordion.Body>
+                        <div className="add-new">
+                            <fieldset className="border rounded-3 p-3">
+                                <legend className="float-none w-auto px-3">Add new quiz</legend>
+                                <div className="form-floating mb-3">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="floatingInput"
+                                        placeholder="Name"
+                                        value={name}
+                                        onChange={(event) => setName(event.target.value)} />
+                                    <label for="floatingInput">Name</label>
+                                </div>
+                                <div className="form-floating">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="floatingPassword"
+                                        placeholder="Description"
+                                        value={description}
+                                        onChange={(event) => setDessciption(event.target.value)} />
+                                    <label for="floatingPassword">Description</label>
+                                </div>
+                                <div className='my-3'>
+                                    <Select
+                                        defaultValue={type}
+                                        onChange={setType}
+                                        placeholder='Quiz type ...'
+                                        options={options}
+                                    />
+                                </div>
+                                <div className='more-action'>
+                                    <div className='form-upload-image'>
+                                        <div className='btn-group'>
+                                            <label className='mb-1 label-upload' htmlFor='upLoadImage'>
+                                                <RiImageAddFill />Upload image
+                                            </label>
+                                            <input
+                                                type='file'
+                                                className='form-control'
+                                                id='upLoadImage'
+                                                hidden
+                                                onChange={(event) => handleChangeImage(event)} />
+                                            <button
+                                                className='btn-1'
+                                                onClick={() => handleSubmitQuiz()}
+                                            >
+                                                <TiPlus /> Create
+                                            </button>
+                                        </div>
 
-                            <div className='preview-image'>
-                                {previewImage ?
-                                    <img src={previewImage} />
-                                    :
-                                    <span>Preview image</span>
-                                }
-                            </div>
+                                        <div className='preview-image'>
+                                            {previewImage ?
+                                                <img src={previewImage} />
+                                                :
+                                                <span>Preview image</span>
+                                            }
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </fieldset>
                         </div>
-
-                    </div>
-
-                </fieldset>
+                    </Accordion.Body>
+                </Accordion.Item>
+            </Accordion>
+            <div className='list-detail'>
+                <h6>List Quizzes: </h6>
+                <TableQuiz />
             </div>
         </div>
     )

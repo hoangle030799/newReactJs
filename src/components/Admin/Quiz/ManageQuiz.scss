@@ -8,5 +8,58 @@
         legend{
             font-size: 20px;
         }
+        
+        .form-upload-image{
+            display: flex;
+            .btn-group {
+                display: flex;
+                margin-left: 0px;
+                flex-direction: column;
+                gap: 30px;
+                .btn-1 {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: #54cb54;
+                    border: none;
+                    border-radius: 5px;
+                    &:hover{
+                        background: #3db03d;
+                    }
+                }
+            }
+            .label-upload {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                height: fit-content;
+                border: none;
+                width: fit-content;
+                padding: 3px 12px;
+                border-radius: 5px;
+                background: #dcd6d6;
+                cursor: pointer;
+        
+                &:hover {
+                    background: #b0acac;
+                }
+            }
+            .preview-image {
+                border: 1px dashed #CCC;
+                width: 86%;
+                height: 150px;
+                margin-left: 20px;
+                color: #CCC;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                img{
+                    max-width: 100%;
+                    max-height: 100%;
+                }
+            }
+
+        }
+        
     }
 }

@@ -1,21 +1,15 @@
 import { useEffect, useState } from "react"
-import { getAllQuizForAdmin } from "../../Services/apiService"
+
 
 const TableQuiz = (props) => {
 
-    const [ListQuiz, setListQuiz] = useState([])
 
 
     useEffect(() => {
-        fetchQuiz()
+        props.fetchQuiz()
     }, [])
 
-    const fetchQuiz = async () => {
-        let res = await getAllQuizForAdmin()
-        if (res && res.EC === 0) {
-            setListQuiz(res.DT)
-        }
-    }
+    
 
     return (
         <table class="table table-hover table-bordered my-2">
@@ -29,7 +23,7 @@ const TableQuiz = (props) => {
                 </tr>
             </thead>
             <tbody>
-                {ListQuiz && ListQuiz.map((item, index) => {
+                {props.ListQuiz && props.ListQuiz.map((item, index) => {
                     return (
                         <tr key={`table-quiz-${index}`}>
                             <td>{item.id}</td>
@@ -37,8 +31,13 @@ const TableQuiz = (props) => {
                             <td>{item.description}</td>
                             <td>{item.difficulty}</td>
                             <td style={{display: 'flex', gap: '15px'}}>
-                                <button className="btn btn-warning">Edit</button>
-                                <button className="btn btn-danger">Delete</button>
+                                <button 
+                                className="btn btn-warning"
+                                >Edit</button>
+                                <button 
+                                className="btn btn-danger"
+                                onClick={()=>props.handleBtnDeleteQuiz(item)}
+                                >Delete</button>
                             </td>
                         </tr>
                     )

@@ -7,6 +7,9 @@ import './ManageQuiz.scss';
 import { RiImageAddFill } from "react-icons/ri";
 import TableQuiz from './TableQuiz';
 import { Accordion } from 'react-bootstrap';
+import ModalDeleteQuiz from './ModalDeleteQuiz';
+import { getAllQuizForAdmin } from "../../Services/apiService"
+
 
 
 const options = [
@@ -22,6 +25,11 @@ const ManageQuiz = (props) => {
     const [type, setType] = useState('')
     const [image, setImage] = useState(null)
     const [previewImage, setPreviewImage] = useState('')
+    const [ListQuiz, setListQuiz] = useState([])
+
+
+    const [listQuizUpdateDelete, setListQuizUpdateDelete] = useState({})
+    const [showModalDeleteQuiz, setShowModalDeleteQuiz] = useState(false)
 
 
     const handleChangeImage = (event) => {
@@ -42,7 +50,22 @@ const ManageQuiz = (props) => {
             toast.success(res.EM)
             setName('')
             setDessciption('')
-        } toast.error(res.EM)
+            setPreviewImage(null)
+            fetchQuiz()
+        }else{toast.error(res.EM)}
+        
+    }
+
+    const handleBtnDeleteQuiz = (item) => {
+        setShowModalDeleteQuiz(true)
+        setListQuizUpdateDelete(item)
+    }
+
+    const fetchQuiz = async () => {
+        let res = await getAllQuizForAdmin()
+        if (res && res.EC === 0) {
+            setListQuiz(res.DT)
+        }
     }
 
 
@@ -122,8 +145,18 @@ const ManageQuiz = (props) => {
             </Accordion>
             <div className='list-detail'>
                 <h6>List Quizzes: </h6>
-                <TableQuiz />
+                <TableQuiz 
+                    handleBtnDeleteQuiz={handleBtnDeleteQuiz}
+                    ListQuiz={ListQuiz}
+                    fetchQuiz={fetchQuiz}
+                />
             </div>
+            <ModalDeleteQuiz
+            setShowModalDeleteQuiz={setShowModalDeleteQuiz}
+            showModalDeleteQuiz={showModalDeleteQuiz}
+            listQuizUpdateDelete = {listQuizUpdateDelete}
+            fetchQuiz={fetchQuiz}
+            />
         </div>
     )
 }

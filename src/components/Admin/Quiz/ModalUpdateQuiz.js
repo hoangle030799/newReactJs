@@ -2,46 +2,50 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { RiImageAddFill } from "react-icons/ri";
-import axios from 'axios';
 import { toast } from 'react-toastify';
-import { putUpdateUser } from '../../Services/apiService'
+import { putUpdateQuiz } from '../../Services/apiService'
 import _ from 'lodash';
+import Select from 'react-select';
 
 
-const ModalUpdateUser = (props) => {
-    const { showModalUpdate, setShowModalUpdate, dataUpdate, setDataUpdate } = props;
+const ModalUpdateQuiz = (props) => {
+    const { showModalUpdateQuiz, setShowModalUpdateQuiz, listQuizUpdateQuiz, fetchQuiz } = props;
+
+    const options = [
+        { value: 'Easy', label: 'Easy' },
+        { value: 'Medium', label: 'Medium' },
+        { value: 'Hard', label: 'Hard' },
+    ];
 
     const handleClose = () => {
-        setShowModalUpdate(false)
-        setEmail('')
-        setPassword('')
-        setUserName('')
-        setRole('')
-        setImage('')
-        setPreviewImage('')
-        setDataUpdate()
+        setShowModalUpdateQuiz(false)
+        setName('')
+        setDescription('')
+        setDifficulty('')
+        setId('')
+        setPreviewImage(null)
+        // setDataUpdate()
     }
 
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [userName, setUserName] = useState('')
-    const [role, setRole] = useState('USER')
+    const [name, setName] = useState('')
+    const [description, setDescription] = useState('')
+    const [difficulty, setDifficulty] = useState('')
+    const [id, setId] = useState('')
+    const [previewImage, setPreviewImage] = useState(null)
     const [image, setImage] = useState('')
-    const [previewImage, setPreviewImage] = useState('')
 
     useEffect(() => {
-        if (!_.isEmpty(dataUpdate)) {
-            setEmail(dataUpdate.email)
-            setPassword(password)
-            setUserName(dataUpdate.username)
-            setRole(dataUpdate.role)
-            setImage('')
-            if (dataUpdate.image) {
-                setPreviewImage(`data:image/jpeg;base64,${dataUpdate.image}`)
+        if (!_.isEmpty(listQuizUpdateQuiz)) {
+            setName(listQuizUpdateQuiz.name)
+            setDescription(listQuizUpdateQuiz.description)
+            setDifficulty(listQuizUpdateQuiz.difficulty)
+            setId(listQuizUpdateQuiz.id)
+            if (listQuizUpdateQuiz.image) {
+                setPreviewImage(`data:image/jpeg;base64,${listQuizUpdateQuiz.image}`)
             }
         }
-    }, [dataUpdate])
+    }, [listQuizUpdateQuiz])
 
     const handleUpLoadImage = (event) => {
         if (event.target && event.target.files && event.target.files[0]) {
@@ -52,24 +56,24 @@ const ModalUpdateUser = (props) => {
         }
 
     }
-
     const handleSubmit = async () => {
 
         //call api
-        let data = await putUpdateUser(dataUpdate.id, userName, role, image)
+        let data = await putUpdateQuiz(listQuizUpdateQuiz.id, name, description, difficulty.value)
         if (data && data.EC === 0) {
             toast.success(data.EM)
             handleClose()
-            await props.fetchListUserWithPaginate(props.currentPage)
+            fetchQuiz()
         } else {
             toast.error(data.EM)
         }
     }
+   console.log (listQuizUpdateQuiz)
 
     return (
         <>
             <Modal
-                show={showModalUpdate}
+                show={showModalUpdateQuiz}
                 onHide={handleClose}
                 size="xl"
                 backdrop="static"
@@ -77,45 +81,46 @@ const ModalUpdateUser = (props) => {
             >
 
                 <Modal.Header closeButton>
-                    <Modal.Title>Update a user</Modal.Title>
+                    <Modal.Title>Update a quiz</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form className="row g-3">
                         <div className="col-md-6">
-                            <label className="form-label">Email</label>
-                            <input
-                                type="email"
-                                className="form-control"
-                                value={email}
-                                disabled
-                                onChange={(event) => setEmail(event.target.value)}
-                            />
-                        </div>
-                        <div className="col-md-6">
-                            <label className="form-label">Password</label>
-                            <input
-                                type="password"
-                                className="form-control"
-                                value={password}
-                                disabled
-                                onChange={(event) => setPassword(event.target.value)}
-                            />
-                        </div>
-                        <div className="col-md-6">
-                            <label className="form-label">Username</label>
+                            <label className="form-label">Name</label>
                             <input
                                 type="text"
                                 className="form-control"
-                                value={userName}
-                                onChange={(event) => setUserName(event.target.value)}
+                                value={name}
+                                onChange={(event) => setName(event.target.value)}
                             />
                         </div>
-                        <div className="col-md-4">
-                            <label className="form-label">Role</label>
-                            <select className="form-select" onChange={(event) => setRole(event.target.value)}>
-                                <option selected value='USER'>USER</option>
-                                <option value='ADMIN'>ADMIN</option>
-                            </select>
+                        <div className="col-md-6">
+                            <label className="form-label">Description</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={description}
+                                onChange={(event) => setDescription(event.target.value)}
+                            />
+                        </div>
+                        <div className="col-md-6">
+                            <label className="form-label">Difficulty</label>
+                            <Select
+                                        defaultValue={difficulty}
+                                        onChange={setDifficulty}
+                                        placeholder={listQuizUpdateQuiz.difficulty}
+                                        options={options}
+                                    />
+                        </div>
+                        <div className="col-md-6">
+                            <label className="form-label">Id</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={id}
+                                disabled
+                                onChange={(event) => setId(event.target.value)}
+                            />
                         </div>
                         <div className='col-md-12'>
                             <label className="form-label label-upload" htmlFor='labelUpLoad'>
@@ -148,4 +153,4 @@ const ModalUpdateUser = (props) => {
         </>
     );
 }
-export default ModalUpdateUser
+export default ModalUpdateQuiz

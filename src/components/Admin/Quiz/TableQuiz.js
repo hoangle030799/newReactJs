@@ -33,6 +33,7 @@ const TableQuiz = (props) => {
                             <td style={{display: 'flex', gap: '15px'}}>
                                 <button 
                                 className="btn btn-warning"
+                                onClick={()=>props.handleBtnUpdateQuiz(item)}
                                 >Edit</button>
                                 <button 
                                 className="btn btn-danger"

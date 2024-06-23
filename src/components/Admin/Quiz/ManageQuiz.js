@@ -9,6 +9,7 @@ import TableQuiz from './TableQuiz';
 import { Accordion } from 'react-bootstrap';
 import ModalDeleteQuiz from './ModalDeleteQuiz';
 import { getAllQuizForAdmin } from "../../Services/apiService"
+import ModalUpdateQuiz from './ModalUpdateQuiz';
 
 
 
@@ -30,6 +31,9 @@ const ManageQuiz = (props) => {
 
     const [listQuizUpdateDelete, setListQuizUpdateDelete] = useState({})
     const [showModalDeleteQuiz, setShowModalDeleteQuiz] = useState(false)
+
+    const [showModalUpdateQuiz, setShowModalUpdateQuiz] = useState (false)
+    const [listQuizUpdateQuiz, setListQuizUpdateQuiz] = useState ({})
 
 
     const handleChangeImage = (event) => {
@@ -60,6 +64,10 @@ const ManageQuiz = (props) => {
         setShowModalDeleteQuiz(true)
         setListQuizUpdateDelete(item)
     }
+    const handleBtnUpdateQuiz = (item) => {
+        setShowModalUpdateQuiz (true)
+        setListQuizUpdateQuiz(item)
+    }
 
     const fetchQuiz = async () => {
         let res = await getAllQuizForAdmin()
@@ -73,7 +81,7 @@ const ManageQuiz = (props) => {
     return (
         <div className="quiz-container">
             <Accordion defaultActiveKey="0">
-                <Accordion.Item eventKey="0">
+                <Accordion.Item eventKey="1">
                     <Accordion.Header>Manage Quizzes</Accordion.Header>
                     <Accordion.Body>
                         <div className="add-new">
@@ -147,6 +155,7 @@ const ManageQuiz = (props) => {
                 <h6>List Quizzes: </h6>
                 <TableQuiz 
                     handleBtnDeleteQuiz={handleBtnDeleteQuiz}
+                    handleBtnUpdateQuiz={handleBtnUpdateQuiz}
                     ListQuiz={ListQuiz}
                     fetchQuiz={fetchQuiz}
                 />
@@ -155,6 +164,12 @@ const ManageQuiz = (props) => {
             setShowModalDeleteQuiz={setShowModalDeleteQuiz}
             showModalDeleteQuiz={showModalDeleteQuiz}
             listQuizUpdateDelete = {listQuizUpdateDelete}
+            fetchQuiz={fetchQuiz}
+            />
+            <ModalUpdateQuiz
+            showModalUpdateQuiz={showModalUpdateQuiz}
+            setShowModalUpdateQuiz={setShowModalUpdateQuiz}
+            listQuizUpdateQuiz={listQuizUpdateQuiz}
             fetchQuiz={fetchQuiz}
             />
         </div>

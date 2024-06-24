@@ -17,6 +17,7 @@ import ListQuiz from './components/User/ListQuiz';
 import DetailQuiz from './components/User/DetailQuiz';
 import { useNavigate } from 'react-router-dom';
 import ManageQuiz from './components/Admin/Quiz/ManageQuiz';
+import ManageQuestions from './components/Question/ManageQuestions';
 
 const Layout = (props) => {
     const navigate = useNavigate()
@@ -47,6 +48,7 @@ const Layout = (props) => {
                     <Route index element={<DashBoard />} />
                     <Route path='manage-user' element={<ManageUser />} />
                     <Route path='manage-quizzes' element={<ManageQuiz />} />
+                    <Route path='manage-questions' element={<ManageQuestions />} />
                 </Route>
                 <Route path='Login' element={<Login />} />
                 <Route path='Register' element={<Register />} />

@@ -32,20 +32,24 @@
                 }
             }
 
-
-
             .btn-add {
                 .icon-add {
                     font-size: 20px;
-                    color: red;
+                    color: #2596ff;
                     cursor: pointer;
+                    &:hover{
+                        color: #0989ff;
+                    }
                 }
 
                 .icon-remove {
                     margin-left: 10px;
                     font-size: 20px;
-                    color: green;
+                    color: #e8711c;
                     cursor: pointer;
+                    &:hover{
+                        color: #ff7608;
+                    }
                 }
             }
         }
@@ -65,18 +69,22 @@
                 width: 47%;
             }
 
-            .btn-group {
-                .icon-add {
-                    font-size: 20px;
-                    color: red;
-                    cursor: pointer;
+            .icon-add {
+                font-size: 20px;
+                color: #2596ff;
+                cursor: pointer;
+                &:hover{
+                    color: #0989ff;
                 }
+            }
 
-                .icon-remove {
-                    margin-left: 10px;
-                    font-size: 20px;
-                    color: green;
-                    cursor: pointer;
+            .icon-remove {
+                margin-left: 10px;
+                font-size: 20px;
+                color: #e8711c;
+                cursor: pointer;
+                &:hover{
+                    color: #ff7608;
                 }
             }
         }

@@ -4,7 +4,6 @@ import './Questions.scss'
 import { FaRegPlusSquare, FaRegTrashAlt } from "react-icons/fa";
 import { FiMinusCircle, FiPlusCircle } from "react-icons/fi";
 import { v4 as uuidv4 } from 'uuid';
-import { filter } from 'lodash';
 import _ from 'lodash';
 
 
@@ -83,9 +82,48 @@ const ManageQuestions = (props) => {
         }
     }
 
+    const handleOnChange = (type, qId, value) => {
+        let questionsClone = _.cloneDeep(questions)
+        if (type === 'question') {
+            let index = questionsClone.findIndex(item => item.id === qId)
+            questionsClone[index].description = value
+            setQuestions(questionsClone)
+        }
+    }
+    const handleOnChangeImage = (qId, event) => {
+        let questionsClone = _.cloneDeep(questions)
+        let index = questionsClone.findIndex(item => item.id === qId)
+        if (index > -1 && event.target && event.target.files && event.target.files[0]) {
+            questionsClone[index].imageFile = event.target.files[0]
+            questionsClone[index].imageName = event.target.files[0].name
+            setQuestions(questionsClone)
+        }
+    }
+    const handleAnswerQuestion = (type, qId, aId, value) => {
+        let questionsClone = _.cloneDeep(questions)
+        let index = questionsClone.findIndex(item => item.id === qId)
+        if (index > -1) {
+            questionsClone[index].answers = questionsClone[index].answers.map(answer => {
+                if (answer.id === aId) {
+                    if (type === 'check') {
+                        answer.isCorrect = value
+                    }
+                    if (type === 'answer') {
+                        answer.description = value
+                    }
+                }
+                return answer
+            })
+            setQuestions(questionsClone)
+        }
+    }
+    const handleSaveQuestion = () => {
+        console.log('question: ', questions)
+    }
 
 
-
+console.log (questions)
+    
     return (
         <div className="questions-container">
             <div className="title">
@@ -113,21 +151,23 @@ const ManageQuestions = (props) => {
                                         <input
                                             type="text"
                                             className="form-control"
-                                            value={item.description} />
+                                            value={item.description}
+                                            onChange={(event) => handleOnChange('question', item.id, event.target.value)} />
                                         <label>Question {index + 1} 's description</label>
                                     </div>
                                     <div className='group-upload'>
                                         <label
                                             className='label-up'
-                                            htmlFor='label-upload'
+                                            htmlFor={`${item.id}`}
                                         >Upload image
                                         </label>
                                         <input
                                             type='file'
-                                            id='label-upload'
+                                            id={`${item.id}`}
+                                            onChange={(event) => handleOnChangeImage(item.id, event)}
                                             hidden
                                         />
-                                        <span>0 file is uploaded</span>
+                                        <span>{item.imageName ? item.imageName : '0 file is uploaded'}</span>
                                     </div>
                                     <div className='btn-add'>
                                         <span onClick={() => handleAddRemoveQuestion('add', '')}>
@@ -147,12 +187,16 @@ const ManageQuestions = (props) => {
                                                 <input
                                                     className="form-check-input iscorrect"
                                                     type="radio"
+                                                    name={`question-${item.id}`}
+                                                    value={item.answers.index}
+                                                    onChange={(event) => handleAnswerQuestion('check', item.id, answer.id, event.target.checked)}
                                                 />
                                                 <div className="form-floating answer-name">
                                                     <input
                                                         type="text"
                                                         className="form-control"
-                                                        value={answer.description} />
+                                                        value={answer.description}
+                                                        onChange={(event) => handleAnswerQuestion('answer', item.id, answer.id, event.target.value)} />
                                                     <label>Answer {index + 1}</label>
                                                 </div>
                                                 <div className='btn-group'>
@@ -169,7 +213,16 @@ const ManageQuestions = (props) => {
                                         )
                                     })
                                 }
-
+                                <div className='mt-4'>
+                                    {item.description && item.answers.every(item => Boolean(item.description)) &&
+                                        <button
+                                            className='btn btn-warning'
+                                            onClick={() => handleSaveQuestion ()}
+                                            >
+                                            Save Question
+                                        </button>
+                                    }
+                                </div>
                             </div>
                         )
                     })

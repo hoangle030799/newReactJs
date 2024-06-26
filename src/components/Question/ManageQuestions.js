@@ -5,6 +5,8 @@ import { FaRegPlusSquare, FaRegTrashAlt } from "react-icons/fa";
 import { FiMinusCircle, FiPlusCircle } from "react-icons/fi";
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
+import Lightbox from "react-awesome-lightbox";
+
 
 
 
@@ -37,6 +39,11 @@ const ManageQuestions = (props) => {
             }
         ]
     )
+    const [isPreviewImage, setIsPreviewImage] = useState(false)
+    const [dataImage, setDataImage] = useState({
+        url: '',
+        title: ''
+    })
 
     const handleAddRemoveQuestion = (type, id) => {
         if (type === 'add') {
@@ -99,6 +106,17 @@ const ManageQuestions = (props) => {
             setQuestions(questionsClone)
         }
     }
+    const handlePreImage = (qId) => {
+        let questionsClone = _.cloneDeep(questions)
+        let index = questionsClone.findIndex(item => item.id === qId)
+        if (index > -1) {
+            setDataImage({
+                url: URL.createObjectURL(questionsClone[index].imageFile),
+                title: questionsClone[index].imageName
+            })
+            setIsPreviewImage(true)
+        }
+    }
     const handleAnswerQuestion = (type, qId, aId, value) => {
         let questionsClone = _.cloneDeep(questions)
         let index = questionsClone.findIndex(item => item.id === qId)
@@ -122,8 +140,7 @@ const ManageQuestions = (props) => {
     }
 
 
-console.log (questions)
-    
+
     return (
         <div className="questions-container">
             <div className="title">
@@ -167,7 +184,13 @@ console.log (questions)
                                             onChange={(event) => handleOnChangeImage(item.id, event)}
                                             hidden
                                         />
-                                        <span>{item.imageName ? item.imageName : '0 file is uploaded'}</span>
+                                        <span>{item.imageName ?
+                                            <span onClick={() => handlePreImage(item.id)} style={{ cursor: 'pointer' }}>
+                                                {item.imageName}
+                                            </span>
+                                            :
+                                            '0 file is uploaded'}
+                                        </span>
                                     </div>
                                     <div className='btn-add'>
                                         <span onClick={() => handleAddRemoveQuestion('add', '')}>
@@ -217,8 +240,8 @@ console.log (questions)
                                     {item.description && item.answers.every(item => Boolean(item.description)) &&
                                         <button
                                             className='btn btn-warning'
-                                            onClick={() => handleSaveQuestion ()}
-                                            >
+                                            onClick={() => handleSaveQuestion()}
+                                        >
                                             Save Question
                                         </button>
                                     }
@@ -227,8 +250,12 @@ console.log (questions)
                         )
                     })
                 }
-
             </div>
+            {isPreviewImage === true &&
+                <Lightbox
+                    image={dataImage.url} title={dataImage.title}
+                    onClose={() => setIsPreviewImage(false)}
+                ></Lightbox>}
         </div>
     )
 }

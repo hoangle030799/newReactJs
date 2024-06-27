@@ -68,7 +68,6 @@ const ModalUpdateQuiz = (props) => {
             toast.error(data.EM)
         }
     }
-   console.log (listQuizUpdateQuiz)
 
     return (
         <>

@@ -278,14 +278,12 @@ const ManageQuestions = (props) => {
                 }
 
                 <div className='mt-4'>
-                    {/* {questions.description && questions.answers.every(item => Boolean(item.description)) && */}
                     <button
                         className='btn btn-warning'
                         onClick={() => handleSaveQuestion()}
                     >
                         Save Question
                     </button>
-
                 </div>
             </div>
             {isPreviewImage === true &&

@@ -7,31 +7,29 @@ import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
 import Lightbox from "react-awesome-lightbox";
 import { getAllQuizForAdmin, postNewQuestionForQuiz, postNewAnswerForQuestion } from '../Services/apiService';
-
-
+import { toast } from 'react-toastify';
 
 
 
 
 
 const ManageQuestions = (props) => {
-    const [questions, setQuestions] = useState(
-        [
-            {
-                id: uuidv4(),
-                description: '',
-                imageFile: null,
-                imageName: '',
-                answers: [
-                    {
-                        id: uuidv4(),
-                        description: '',
-                        isCorrect: false
-                    }
-                ]
-            }
-        ]
-    )
+    const initQuestion = [
+        {
+            id: uuidv4(),
+            description: '',
+            imageFile: null,
+            imageName: '',
+            answers: [
+                {
+                    id: uuidv4(),
+                    description: '',
+                    isCorrect: false
+                }
+            ]
+        }
+    ]
+    const [questions, setQuestions] = useState(initQuestion)
     const [isPreviewImage, setIsPreviewImage] = useState(false)
     const [dataImage, setDataImage] = useState({
         url: '',
@@ -62,7 +60,6 @@ const ManageQuestions = (props) => {
             questionsClone = questionsClone.filter(item => item.id !== id)
             setQuestions(questionsClone)
         }
-        console.log('check', type, id)
     }
     const handleAddRemoveAnswer = (type, qId, aId) => {
         let questionsClone = _.cloneDeep(questions)
@@ -130,16 +127,37 @@ const ManageQuestions = (props) => {
             setQuestions(questionsClone)
         }
     }
-    const handleSaveQuestion = async() => {
-        console.log('question: ', questions, selectedQuiz)
+    const handleSaveQuestion = async () => {
+        //validate Data
+        if (_.isEmpty(selectedQuiz)) {
+            toast.error('Please choose a Quiz !!!')
+            return;
+        }
+        for (const question of questions) {
+            if (!question.description) {
+                toast.error('qq')
+                return;
+            }
+        }
+        for (const q of questions){
+            for (const a of q.answers){
+                if(!a.description){
+                    toast.error('aa')
+                    return
+                }
+            }
+        }
         //submit question
-        await Promise.all(questions.map(async (question) => {
+        for (const question of questions) {
             const q = await postNewQuestionForQuiz(selectedQuiz.value, question.description, question.imageFile);
             //submit answer
-            await Promise.all(question.answers.map(async(item) => {
+            for (const item of question.answers) {
                 await postNewAnswerForQuestion(item.description, item.isCorrect, q.DT.id)
-            }))
-        }));
+            }
+        }
+        toast.success('Add question succed')
+        setQuestions(initQuestion)
+        setSelectedQuiz({})
     }
     const fetchQuiz = async () => {
         let res = await getAllQuizForAdmin()
@@ -258,17 +276,17 @@ const ManageQuestions = (props) => {
                         )
                     })
                 }
-                
+
                 <div className='mt-4'>
-                                    {/* {questions.description && questions.answers.every(item => Boolean(item.description)) && */}
-                                        <button
-                                            className='btn btn-warning'
-                                            onClick={() => handleSaveQuestion()}
-                                        >
-                                            Save Question
-                                        </button>
-                                    
-                                </div>
+                    {/* {questions.description && questions.answers.every(item => Boolean(item.description)) && */}
+                    <button
+                        className='btn btn-warning'
+                        onClick={() => handleSaveQuestion()}
+                    >
+                        Save Question
+                    </button>
+
+                </div>
             </div>
             {isPreviewImage === true &&
                 <Lightbox

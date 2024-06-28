@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
-import { getAllQuizForAdmin, getAllUser } from '../../Services/apiService';
-
+import { getAllQuizForAdmin, getAllUser, postAssignQuiz } from '../../Services/apiService';
+import { toast } from 'react-toastify';
 
 const AssignQuiz = (props) => {
     const [listQuiz, setListQuiz] = useState([])
@@ -16,7 +16,7 @@ const AssignQuiz = (props) => {
             let newQuiz = res.DT.map(item => {
                 return {
                     value: item.id,
-                    label: `${item.id}-${item.description}`
+                    label: `${item.id}-${item.name}`
                 }
             })
             setListQuiz(newQuiz)
@@ -33,6 +33,12 @@ const AssignQuiz = (props) => {
             })
             setListUser(users)
         }
+    }
+    const handleAssign = async() => {
+        let res = await postAssignQuiz (selectedQuiz.value, selectedUser.value)
+        if(res && res.EC === 0){
+            toast.success(res.EM)
+        }toast.error(res.EM)
     }
     useEffect(() => {
         fetchQuiz()
@@ -57,7 +63,11 @@ const AssignQuiz = (props) => {
                 />
             </div>
             <div className='d-flex align-items-center justify-content-center'>
-                <button className='btn btn-warning mt-3'>&#62;Assign&#62;</button>
+                <button
+                    className='btn btn-warning mt-3'
+                    onClick={()=>handleAssign()}>
+                    &#62;Assign&#62;
+                </button>
             </div>
         </div>
     )

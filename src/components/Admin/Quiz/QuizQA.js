@@ -6,7 +6,7 @@ import { FiMinusCircle, FiPlusCircle } from "react-icons/fi";
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
 import Lightbox from "react-awesome-lightbox";
-import { getAllQuizForAdmin, postNewQuestionForQuiz, postNewAnswerForQuestion } from '../../Services/apiService';
+import { getAllQuizForAdmin, postNewQuestionForQuiz, postNewAnswerForQuestion, getQuizWithQA } from '../../Services/apiService';
 import { toast } from 'react-toastify';
 
 
@@ -135,14 +135,14 @@ const QuizQA = (props) => {
         }
         for (const question of questions) {
             if (!question.description) {
-                toast.error('qq')
+                toast.error('Please fill the Question !!!')
                 return;
             }
         }
-        for (const q of questions){
-            for (const a of q.answers){
-                if(!a.description){
-                    toast.error('aa')
+        for (const q of questions) {
+            for (const a of q.answers) {
+                if (!a.description) {
+                    toast.error('Please fill the Answer !!!')
                     return
                 }
             }
@@ -171,9 +171,36 @@ const QuizQA = (props) => {
             setListQuiz(newQuiz)
         }
     }
+    function urltoFile(url, filename, mimeType) {
+        return fetch(url)
+            .then(res => res.arrayBuffer())
+            .then(buf => new File([buf], filename, { type: mimeType }));
+    }
+    const fetchQuizWithQA = async () => {
+        let res = await getQuizWithQA(selectedQuiz.value)
+        if (res && res.EC === 0) {
+            //convert string base64 to file object
+            let newQA = []
+            for (let i = 0; i < res.DT.qa.length; i++){
+                let q = res.DT.qa[i]
+                if(q.imageFile) {
+                    q.imageName = `Question ${q.id}.png`
+                    q.imageFile = await urltoFile(`data:image/png;base64,${q.imageFile}`, `Question ${q.id}.png`,'image/png')
+                }
+                newQA.push(q)
+            }
+            setQuestions(newQA)
+            console.log('check res: ', newQA)
+        }
+    }
     useEffect(() => {
         fetchQuiz()
     }, [])
+    useEffect(() => {
+        if (selectedQuiz && selectedQuiz.value) {
+            fetchQuizWithQA()
+        }
+    }, [selectedQuiz])
 
 
 

@@ -1,4 +1,6 @@
 import _ from "lodash"
+import { useState } from "react";
+import Lightbox from "react-awesome-lightbox";
 
 
 
@@ -9,6 +11,7 @@ const Question = (props) => {
         newSelectedAnswers[qIdx] = aIdx
         props.setSelectedAnswers(newSelectedAnswers)
     };
+    const [isPreviewImage, setIsPreviewImage] = useState(false)
 
     if (_.isEmpty(data)) {
         return (<></>)
@@ -17,8 +20,16 @@ const Question = (props) => {
         <>
             <div className="q-body">
                 {data.image ?
-                    <img src={`data:image/jpeg;base64, ${data.image}`} /> : <div></div>}
+                    <img 
+                    onClick={() => setIsPreviewImage(true)}
+                    style={{cursor: 'pointer'}}
+                    src={`data:image/jpeg;base64, ${data.image}`} /> : <div></div>}
             </div>
+            {isPreviewImage === true &&
+                <Lightbox
+                    image={`data:image/jpeg;base64, ${data.image}`} title={'Question Image'}
+                    onClose={() => setIsPreviewImage(false)}
+                ></Lightbox>}
             <div className="question">Question {index + 1}: {data.questionDescription} ?</div>
             <div className="answers">
                 {data.answers && data.answers.length > 0 && props.selectedAnswers.length > 0 &&
@@ -45,6 +56,7 @@ const Question = (props) => {
                     })
                 }
             </div>
+            
         </>
     )
 }

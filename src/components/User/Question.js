@@ -6,10 +6,11 @@ import Lightbox from "react-awesome-lightbox";
 
 const Question = (props) => {
     const { data, index } = props
-    const handleCheckbox = (qIdx, aIdx) => {
+    const handleCheckbox = (qIdx, aIdx, aIndex, value) => {
         const newSelectedAnswers = [...props.selectedAnswers]
         newSelectedAnswers[qIdx] = aIdx
         props.setSelectedAnswers(newSelectedAnswers)
+        data.answers[aIndex].isSeleted = value
     };
     const [isPreviewImage, setIsPreviewImage] = useState(false)
 
@@ -20,10 +21,10 @@ const Question = (props) => {
         <>
             <div className="q-body">
                 {data.image ?
-                    <img 
-                    onClick={() => setIsPreviewImage(true)}
-                    style={{cursor: 'pointer'}}
-                    src={`data:image/jpeg;base64, ${data.image}`} /> : <div></div>}
+                    <img
+                        onClick={() => setIsPreviewImage(true)}
+                        style={{ cursor: 'pointer' }}
+                        src={`data:image/jpeg;base64, ${data.image}`} /> : <div></div>}
             </div>
             {isPreviewImage === true &&
                 <Lightbox
@@ -45,8 +46,8 @@ const Question = (props) => {
                                         type="radio"
                                         name={`question-${index}`}
                                         checked={props.selectedAnswers[index] == a.id}
-                                        onChange={() => handleCheckbox(index, a.id)}
-                                        value={idx}/>
+                                        onChange={(event) => handleCheckbox(index, a.id, idx, event.target.checked)}
+                                        value={idx} />
                                     <label className="form-check-label">
                                         {a.description}
                                     </label>
@@ -56,7 +57,7 @@ const Question = (props) => {
                     })
                 }
             </div>
-            
+
         </>
     )
 }

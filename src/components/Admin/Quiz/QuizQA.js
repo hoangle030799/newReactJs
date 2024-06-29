@@ -6,7 +6,7 @@ import { FiMinusCircle, FiPlusCircle } from "react-icons/fi";
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
 import Lightbox from "react-awesome-lightbox";
-import { getAllQuizForAdmin, postNewQuestionForQuiz, postNewAnswerForQuestion, getQuizWithQA } from '../../Services/apiService';
+import { getAllQuizForAdmin, getQuizWithQA, postUpSertQA } from '../../Services/apiService';
 import { toast } from 'react-toastify';
 
 
@@ -147,18 +147,27 @@ const QuizQA = (props) => {
                 }
             }
         }
-        //submit question
-        for (const question of questions) {
-            const q = await postNewQuestionForQuiz(selectedQuiz.value, question.description, question.imageFile);
-            //submit answer
-            for (const item of question.answers) {
-                await postNewAnswerForQuestion(item.description, item.isCorrect, q.DT.id)
+        let questionsClone = _.cloneDeep(questions)
+        for (let i = 0; i < questions.length; i++){
+            if(questionsClone[i].imageFile){
+                questionsClone[i].imageFile =  await toBase64(questionsClone[i].imageFile)
             }
         }
-        toast.success('Add question succed')
-        setQuestions(initQuestion)
-        setSelectedQuiz({})
+        let res = await postUpSertQA({
+            quizId: selectedQuiz.value,
+            questions: questionsClone
+        })
+        if(res && res.EC === 0) {
+            toast.success(res.EM)
+            fetchQuizWithQA()
+        }
     }
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+    });
     const fetchQuiz = async () => {
         let res = await getAllQuizForAdmin()
         if (res && res.EC === 0) {
@@ -190,7 +199,6 @@ const QuizQA = (props) => {
                 newQA.push(q)
             }
             setQuestions(newQA)
-            console.log('check res: ', newQA)
         }
     }
     useEffect(() => {

@@ -5,8 +5,9 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Login from '../Auth/Login';
 import { useSelector, useDispatch } from 'react-redux';
-import {postLogout} from '../Services/apiService'
-import { doLogout } from '../../redux/action/userAction'; 
+import { postLogout } from '../Services/apiService'
+import { doLogout } from '../../redux/action/userAction';
+import Language from './Language';
 
 const Header = () => {
 
@@ -18,13 +19,13 @@ const Header = () => {
     const handleLogin = () => {
         navigate('/Login')
     }
-    const handleLogout = async() => {
-        let res = await postLogout ("account.email", account.refresh_token)
-        if(res && res.EC === 0){
+    const handleLogout = async () => {
+        let res = await postLogout("account.email", account.refresh_token)
+        if (res && res.EC === 0) {
             dispatch(doLogout())
             navigate('/Login')
         }
-        console.log (res)
+        console.log(res)
     }
 
     return (
@@ -50,9 +51,10 @@ const Header = () => {
                             :
                             <NavDropdown title="Settings" id="basic-nav-dropdown">
                                 <NavDropdown.Item>Profile</NavDropdown.Item>
-                                <NavDropdown.Item onClick= {()=>handleLogout()}>log out</NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => handleLogout()}>Log out</NavDropdown.Item>
                             </NavDropdown>
                         }
+                        <Language/>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

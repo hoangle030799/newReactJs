@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import ManageQuiz from './components/Admin/Quiz/ManageQuiz';
 import ManageQuestions from './components/Question/ManageQuestions';
 import PrivateRoute from './PrivateRoute/PrivateRoute';
+import { Suspense } from 'react';
 
 const Layout = (props) => {
     const navigate = useNavigate()
@@ -38,7 +39,7 @@ const Layout = (props) => {
         )
     }
     return (
-        <>
+        <Suspense fallback={<div>Loading...</div>}>
             <Routes>
                 <Route path='/' element={<App />}>
                     <Route index element={<HomePage />} />
@@ -73,7 +74,7 @@ const Layout = (props) => {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover />
-        </>
+        </Suspense>
     )
 }
 export default Layout

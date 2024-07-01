@@ -11,8 +11,18 @@
         width: 100%;
 
         .admin-header {
-            height: 20px;
+            height: 50px;
             margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding: 0 20px 0 10px;
+
+            .hd-right{
+                display: flex;
+                gap: 20px;
+            }
         }
         
 

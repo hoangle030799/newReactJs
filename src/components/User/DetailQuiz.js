@@ -6,6 +6,11 @@ import './DetailQuiz.scss'
 import Question from "./Question"
 import ModalResult from "./ModalResult"
 import RightContent from "./Content/RightContent"
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import { NavLink } from "react-bootstrap"
+import Nav from 'react-bootstrap/Nav';
+
+
 
 
 
@@ -101,41 +106,54 @@ const DetailQuiz = (props) => {
 
 
     return (
-        <div className="detail-quiz-container">
-            <div className="left-content">
-                <div className="q-title">
-                    <h2>Quiz {quizId}: {location?.state?.quizTitle}</h2>
+        <>
+            <Breadcrumb className="qs-header">
+                <NavLink href="/" className="breadcrumb-item">
+                    Home
+                </NavLink>
+                <NavLink href="/user" className="breadcrumb-item">
+                    User
+                </NavLink>
+                <Breadcrumb.Item active>
+                    Question
+                </Breadcrumb.Item>
+            </Breadcrumb>
+            <div className="detail-quiz-container">
+                <div className="left-content">
+                    <div className="q-title">
+                        <h2>Quiz {quizId}: {location?.state?.quizTitle}</h2>
+                    </div>
+                    <hr />
+                    <div className="q-content">
+                        <Question
+                            data={dataQuiz[currentQuestionIndex]}
+                            index={currentQuestionIndex}
+                            handleCB={handleCB}
+                            selectedAnswers={selectedAnswers}
+                            setSelectedAnswers={setSelectedAnswers}
+                        />
+                    </div>
+                    <div className="q-footer">
+                        <button onClick={() => handlePrev()} className="btn btn-danger">Prev</button>
+                        <button onClick={() => handleNext()} className="btn btn-danger">Next</button>
+                        <button onClick={() => handleFinish()} className="btn btn-warning">Finish</button>
+                    </div>
                 </div>
-                <hr />
-                <div className="q-content">
-                    <Question
-                        data={dataQuiz[currentQuestionIndex]}
-                        index={currentQuestionIndex}
-                        handleCB={handleCB}
-                        selectedAnswers={selectedAnswers}
-                        setSelectedAnswers={setSelectedAnswers}
+                <div className="right-content">
+                    <RightContent
+                        dataQuiz={dataQuiz}
+                        handleFinish={handleFinish}
+                        setCurrentQuestionIndex={setCurrentQuestionIndex}
+                        currentQuestionIndex={currentQuestionIndex}
                     />
                 </div>
-                <div className="q-footer">
-                    <button onClick={() => handlePrev()} className="btn btn-danger">Prev</button>
-                    <button onClick={() => handleNext()} className="btn btn-danger">Next</button>
-                    <button onClick={() => handleFinish()} className="btn btn-warning">Finish</button>
-                </div>
-            </div>
-            <div className="right-content">
-                <RightContent
-                    dataQuiz={dataQuiz}
-                    handleFinish={handleFinish}
-                    setCurrentQuestionIndex={setCurrentQuestionIndex}
-                    currentQuestionIndex={currentQuestionIndex}
+                <ModalResult
+                    show={isShowModalResult}
+                    setShow={setIsShowModalResult}
+                    dataModalResult={dataModalResult}
                 />
             </div>
-            <ModalResult
-                show={isShowModalResult}
-                setShow={setIsShowModalResult}
-                dataModalResult={dataModalResult}
-            />
-        </div>
+        </>
     )
 }
 export default DetailQuiz

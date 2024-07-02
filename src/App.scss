@@ -30,6 +30,24 @@ body {
 .App-container {
   .header-container {
     padding-top: 20px;
+    .navbar-brand{
+      display: flex;
+      align-items: center;
+      .icon{
+          font-size: 23px;
+          color: #00efff;
+          animation: spin 5s infinite linear;
+      }
+      @keyframes spin {
+        from {
+            transform: scale(1) rotate(0deg);
+        }
+
+        to {
+            transform: scale(1) rotate(360deg);
+        }
+    }
+    }
 
     .btn-login {
       border-radius: 5px;

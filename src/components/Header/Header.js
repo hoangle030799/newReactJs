@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { postLogout } from '../Services/apiService'
 import { doLogout } from '../../redux/action/userAction';
 import Language from './Language';
+import { FaReact } from "react-icons/fa";
 
 const Header = () => {
 
@@ -25,13 +26,15 @@ const Header = () => {
             dispatch(doLogout())
             navigate('/Login')
         }
-        console.log(res)
     }
 
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
-                <NavLink to='/' className='navbar-brand'>HoangHeoThy</NavLink>
+                <NavLink to='/' className='navbar-brand'>
+                <FaReact className='icon'/> 
+                HoangHeoThy
+                </NavLink>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">

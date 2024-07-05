@@ -9,8 +9,12 @@ import { postLogout } from '../Services/apiService'
 import { doLogout } from '../../redux/action/userAction';
 import Language from './Language';
 import { FaReact } from "react-icons/fa";
+import Profile from './Profile';
+import { useState } from 'react';
 
 const Header = () => {
+
+    const [lgShow, setLgShow] = useState(false);
 
     const isAuthenticated = useSelector(state => state.user.isAuthenticated)
     const account = useSelector(state => state.user.account)
@@ -29,39 +33,45 @@ const Header = () => {
     }
 
     return (
-        <Navbar expand="lg" className="bg-body-tertiary">
-            <Container>
-                <NavLink to='/' className='navbar-brand'>
-                <FaReact className='icon'/> 
-                HoangHeoThy
-                </NavLink>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        <NavLink to='/' className='nav-link'>Home</NavLink>
-                        <NavLink to='/user' className='nav-link'>User</NavLink>
-                        <NavLink to='/admin' className='nav-link'>Admin</NavLink>
-                        {/* <Nav.Link href="#home">Home</Nav.Link>
+        <>
+            <Navbar expand="lg" className="bg-body-tertiary">
+                <Container>
+                    <NavLink to='/' className='navbar-brand'>
+                        <FaReact className='icon' />
+                        HoangHeoThy
+                    </NavLink>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="me-auto">
+                            <NavLink to='/' className='nav-link'>Home</NavLink>
+                            <NavLink to='/user' className='nav-link'>User</NavLink>
+                            <NavLink to='/admin' className='nav-link'>Admin</NavLink>
+                            {/* <Nav.Link href="#home">Home</Nav.Link>
                         <Nav.Link href="#user">User</Nav.Link>
                         <Nav.Link href="#admin" >Admin</Nav.Link> */}
-                    </Nav>
-                    <Nav>
-                        {isAuthenticated === false ?
-                            <>
-                                <button className='btn-login' onClick={() => handleLogin()}>Log in</button>
-                                <button className='btn-signup' onClick={() => { navigate('/Register') }}>Sign up</button>
-                            </>
-                            :
-                            <NavDropdown title="Settings" id="basic-nav-dropdown">
-                                <NavDropdown.Item>Profile</NavDropdown.Item>
-                                <NavDropdown.Item onClick={() => handleLogout()}>Log out</NavDropdown.Item>
-                            </NavDropdown>
-                        }
-                        <Language/>
-                    </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
+                        </Nav>
+                        <Nav>
+                            {isAuthenticated === false ?
+                                <>
+                                    <button className='btn-login' onClick={() => handleLogin()}>Log in</button>
+                                    <button className='btn-signup' onClick={() => { navigate('/Register') }}>Sign up</button>
+                                </>
+                                :
+                                <NavDropdown title="Settings" id="basic-nav-dropdown">
+                                    <NavDropdown.Item onClick={() => setLgShow(true)}>Profile</NavDropdown.Item>
+                                    <NavDropdown.Item onClick={() => handleLogout()}>Log out</NavDropdown.Item>
+                                </NavDropdown>
+                            }
+                            <Language />
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+            <Profile
+                setLgShow={setLgShow}
+                lgShow={lgShow}
+            />
+        </>
     );
 }
 

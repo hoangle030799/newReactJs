@@ -16,7 +16,7 @@ const DashBoard = (props) => {
         let res = await getOverview()
         if (res && res.EC === 0) {
             setDataOverView(res.DT)
-            let Qz=0, Qs=0, As= 0
+            let Qz = 0, Qs = 0, As = 0
             Qz = res?.DT?.others?.countQuiz ?? 0
             Qs = res?.DT?.others?.countQuestions ?? 0
             As = res?.DT?.others?.countAnswers ?? 0
@@ -39,7 +39,7 @@ const DashBoard = (props) => {
     }
 
 
-    
+
     return (
         <div className="dashboard-container">
             <div className='title'>

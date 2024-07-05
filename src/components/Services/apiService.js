@@ -102,6 +102,12 @@ const postLogout = (email, refresh_token) => {
 const getOverview = () => {
     return axios.get(`/api/v1/overview`)
 }
+const postProfile = (username, userImage) => {
+    return axios.post(`/api/v1/profile`, {username, userImage})
+}
+const PostChangePassWord = (current_password, new_password) => {
+    return axios.post(`/api/v1/change-password`, {current_password, new_password})
+}
 export {
     postCreateNewUser, getAllUser, putUpdateUser,
     deleteUser, getUserWithPaginate, postLogin,
@@ -110,6 +116,7 @@ export {
     getAllQuizForAdmin, deleteQuiz, putUpdateQuiz,
     postNewQuestionForQuiz, postNewAnswerForQuestion,
     postAssignQuiz, getQuizWithQA, postUpSertQA,
-    postLogout, getOverview
+    postLogout, getOverview, postProfile,
+    PostChangePassWord
 
 }
